@@ -1,5 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import taskcard from './Taskcard';
+taskcard
 
 export default function App() {
   return (
@@ -11,24 +13,29 @@ export default function App() {
 
       <Text style={styles.label}>Descrição da Tarefa:</Text>
       <TextInput
-        style={styles.input}
         style={[styles.input, styles.textArea]}
-        placeholder='Descrição da tarefa' 
-        multiline/>
+        placeholder='Descrição da tarefa'
+        multiline />
 
       <View style={styles.buttonContainer}>
-        <Button title='Salvar' 
+        <Button title='Salvar'
           style={styles.buttongreen}
-          color = 'darkgreen'
+          color='darkgreen'
           onPress={
-          () => {
-
-          }
-        }/> 
-        </View>
+            () => {
+              <taskcard>
+                tittle={"teste"}
+                description={"Descrição teste"}
+                status={"c"}
+                onClick={
+                  
+                }
+              </taskcard>
+            }
+                
+          } />
       </View>
-      
-      
+    </View>
   );
 }
 
@@ -56,14 +63,15 @@ const styles = StyleSheet.create({
 
   textArea: {
     height: 200,
-    textAlignVertical:'top'
+    textAlignVertical: 'top'
   },
 
   buttonContainer: {
     marginTop: 16
   },
-  buttongreen:{
-    backgroundColor: 'darkgreen',
+
+  buttongreen: {
+    //backgroundColor: 'darkgreen',
     borderRadius: 12
   }
 
