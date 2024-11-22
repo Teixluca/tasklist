@@ -1,7 +1,52 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ScrollView } from 'react-native';
 import taskcard from './Taskcard';
-taskcard
+import { useState } from 'react-native';
+
+export default function App() {
+  const [taskTitle, setTaskTitle] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
+  const [task, setTask] = useState([]);
+  const [alert1, setAlert1] = useState(false);
+  const [alert2, setAlert2] = useState(false);
+
+
+  const onMessage = () => {
+    setAlert1(false);
+    setAlert2(false);
+
+    if (taskTitle !== "" && taskDescription.length >= 10) {
+
+      setTask([
+
+        ...task, {
+          id: task.length + 1,
+          title: taskTitle,
+          description: taskDescription
+        }
+
+      ])
+      setTask("");
+      setTaskDescription("");
+
+    } else {
+      if (!taskTitle.trim()) {
+        setAlert1(true)
+        setTimeout(() => {
+          setTimeout(false);
+        }, 4000);
+      }
+
+      if (taskDescription.length < 10) {
+        setAlert2(true)
+        setTimeout(() => {
+          setAlert2(false)
+        }, 4000)
+      }
+    }
+
+  }
+}
 
 export default function App() {
   return (
@@ -18,23 +63,29 @@ export default function App() {
         multiline />
 
       <View style={styles.buttonContainer}>
-        <Button title='Salvar'
+        <Button
+          title='Salvar'
           style={styles.buttongreen}
           color='darkgreen'
-          onPress={
-            () => {
-              <taskcard>
-                tittle={"teste"}
-                description={"Descrição teste"}
-                status={"c"}
-                onClick={
-                  
-                }
-              </taskcard>
-            }
-                
-          } />
+          onPress={() => onMessage()} />
       </View>
+
+      <ScrollView>
+        {
+          task.map((item, index) => {
+            <taskcard
+              tittle={"Teste"}
+              description={"Descrição"}
+              status={"Done"}
+              onClick={() => {
+                deleteTask();
+              }}
+            />;
+          })
+        }
+
+      </ScrollView>
+
     </View>
   );
 }
@@ -73,6 +124,19 @@ const styles = StyleSheet.create({
   buttongreen: {
     //backgroundColor: 'darkgreen',
     borderRadius: 12
+  },
+
+  separator: {
+    marginTop: 16,
+    width: "100%",
+    hegth: 1,
+    backgroundColor: "#222"
+  },
+
+  errorText: {
+    colo: "red",
+    fontSize: 12,
+    fontStyle: "italic"
   }
 
 });
