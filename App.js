@@ -4,55 +4,58 @@ import Taskcard from './Taskcard';
 import { useState } from 'react';
 
 export default function App() {
-const [taskTitle, setTaskTitle] = useState("");
-const [taskDescription, setTaskDescription] = useState("");
-const [task, setTask] = useState([]);
-const [alert1, setAlert1] = useState(false);
-const [alert2, setAlert2] = useState(false);
+
+  const [taskTitle, setTaskTitle] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
+  const [task, setTask] = useState([]);
+  const [alert1, setAlert1] = useState(false);
+  const [alert2, setAlert2] = useState(false);
 
 
-const onMessage = () => {
-  setAlert1(false);
-  setAlert2(false);
+  const onMessage = () => {
+    setAlert1(false);
+    setAlert2(false);
 
-  if (taskTitle !== "" && taskDescription.length >= 10) {
+    if (taskTitle !== "" && taskDescription.length >= 10) {
 
-    setTask([
+      setTask([
 
-      ...task, {
-        id: task.length + 1,
-        title: taskTitle,
-        description: taskDescription
+        ...task, {
+          id: task.length + 1,
+          title: taskTitle,
+          description: taskDescription
+        }
+
+      ])
+      setTaskTitle("");
+      setTaskDescription("");
+
+    } else {
+
+      if (!taskTitle.trim()) {
+        setAlert1(true)
+        setTimeout(() => {
+          setAlert1(false);
+        }, 4000);
       }
 
-    ])
-    setTaskTitle("");
-    setTaskDescription("");
+      if (taskDescription.length < 10) {
+        setAlert2(true)
+        setTimeout(() => {
+          setAlert2(false)
+        }, 4000);
+      }
 
-  } else {
-    if (!taskTitle.trim()) {
-      setAlert1(true)
-      setTimeout(() => {
-        setTimeout(false);
-      }, 4000);
     }
 
-    if (taskDescription.length < 10) {
-      setAlert2(true)
-      setTimeout(() => {
-        setAlert2(false)
-      }, 4000);
-    }
   }
 
-}
+  const deleteTask = () => {
+    const updateTasks = { ...task };
+    updateTasks.splice(index, 1);
+    setTask(updateTasks);
 
-const deleteTask = () => {
-  const updateTasks = { ...task };
-  updateTasks.splice(index, 1);
-  setTask(updateTasks);
-
-}
+  }
 
 
 
@@ -107,8 +110,8 @@ const deleteTask = () => {
         {
           task.map((item, index) => (
             <Taskcard
-              tittle={"Teste"}
-              description={"Descrição"}
+              title={item.title}
+              description={item.description}
               status={"Done"}
               onClick={() => {
                 deleteTask(index);
@@ -147,7 +150,7 @@ const styles = StyleSheet.create({
   },
 
   textArea: {
-    height: 200,
+    height: 150,
     textAlignVertical: 'top'
   },
 
@@ -163,12 +166,12 @@ const styles = StyleSheet.create({
   separator: {
     marginTop: 16,
     width: "100%",
-    hegth: 1,
+    heigth: 1,
     backgroundColor: "#222"
   },
 
   errorText: {
-    colo: "red",
+    color: "red",
     fontSize: 12,
     fontStyle: "italic"
   },

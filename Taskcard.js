@@ -1,26 +1,24 @@
 import { CircleCheck } from "lucide-react-native";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-const Taskcard = (title, description, status, onClick) => {
+const Taskcard = ({ title, description, status, onClick }) => {
     return (
         <View style={styles.card}>
             <View style={styles.header}>
                 <Text style={styles.title}>
-                    {
-                        { title }
-                    }
+                    {title}
                 </Text>
                 <CircleCheck color={'green'} size={32} />
             </View>
-            
+
             <Text style={styles.description}>{description}</Text>
-            
+
             <TouchableOpacity
                 style={styles.button}
                 onPress={onClick}>
-                    <Text style={styles.buttonText}>
-                        {status === "Done" ? "Deletar" : "Check"}
-                    </Text>
+                <Text style={styles.buttonText}>
+                    {status === "Done" ? "Deletar" : "Check"}
+                </Text>
             </TouchableOpacity>
         </View>
     )
@@ -42,17 +40,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBotton: 10
+        marginBottom: 10
     },
 
     title: {
-        fontSize: 10,
+        fontSize: 16,
         fontWeight: 'bold',
         color: '#333'
     },
 
     status: {
-        fontSize: '14',
+        fontSize: 14,
         fontWeight: 'bold',
         textTransform: 'uppercase'
     },
@@ -60,12 +58,12 @@ const styles = StyleSheet.create({
     description: {
         fontSize: 14,
         color: '#666',
-        marginBotton: 10
+        marginBottom: 10
 
     },
 
     button: {
-        backgroundColor: '#d33f49f',
+        backgroundColor: '#d33f49',
         paddingVertical: 10,
         borderRadius: 6,
         alignItems: 'center'
