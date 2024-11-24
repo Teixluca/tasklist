@@ -50,14 +50,11 @@ export default function App() {
 
   }
 
-  const deleteTask = () => {
-    const updateTasks = { ...task };
+  const deleteTask = (index) => {
+    const updateTasks = [...task ];
     updateTasks.splice(index, 1);
     setTask(updateTasks);
-
   }
-
-
 
   return (
 
