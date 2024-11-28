@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Button, ScrollView } from 'react-native';
 import Taskcard from './Taskcard';
 import { useState, useEffect } from 'react';
-import { getRequest } from './Api';
+import { getRequest, postRequest, deleteRequest } from './Api';
 
 
 export default function App() {
@@ -20,15 +20,9 @@ export default function App() {
 
     if (taskTitle !== "" && taskDescription.length >= 10) {
 
-      setTask([
+      const newTask = postRequest(taskTitle, taskDescription);
+      setTask(newTask);
 
-        ...task, {
-          id: task.length + 1,
-          title: taskTitle,
-          description: taskDescription
-        }
-
-      ])
       setTaskTitle("");
       setTaskDescription("");
 
@@ -52,18 +46,19 @@ export default function App() {
 
   }
 
-  const deleteTask = (index) => {
-    const updateTasks = [...task ];
+  const deleteTask = (index, id) => {
+    const updateTasks = [...task];
     updateTasks.splice(index, 1);
+    deleteRequest(id)
     setTask(updateTasks);
   }
 
   useEffect(() => {
-    const fetchData = async() => {
+    const fetchData = async () => {
       try {
         const resp = await getRequest();
         setTask(resp)
-        
+
       } catch (ex) {
         console.error(ex)
       }
@@ -124,11 +119,12 @@ export default function App() {
         {
           task.map((item, index) => (
             <Taskcard
+              key={item.id}
               title={item.title}
               description={item.description}
               status={"Done"}
               onClick={() => {
-                deleteTask(index);
+                deleteTask(index, item.id);
               }}
             />
           ))
